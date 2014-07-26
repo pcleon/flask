@@ -1,0 +1,18 @@
+<!doctype html>
+<head>
+    <link rel="icon" href="static/favicon.ico" mce_href="/favicon.ico" type="image/x-icon" />
+</head>
+<title>leon </title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<div class=page>
+  <h1>Leon's auto report</h1>
+  <div class=metanav>
+    <a href="{{ url_for('show', url='aaa') }}">aaa</a>
+  <p>
+    <a href="{{ url_for('show', url='flow') }}">flow</a>
+  </div>
+<!--
+-->
+
+{% block body %}{% endblock %}
+</div>

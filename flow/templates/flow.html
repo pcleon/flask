@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>flow xxx</h1>
+<div class=flash>
+<table border="1">
+<tr>
+  <th>区域</th>
+  <th>容量</th>
+  <th colspan='2'>平均流量 </th>
+  <th colspan='2'>峰值流量</th>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+  <td>in</td>
+  <td>out</td>
+  <td>in</td>
+  <td>out</td>
+</tr>
+</tr>
+{% for x in data %}
+<tr>
+  <td>{{x.split()[0]}}</td>
+  <td>{{x.split()[1]}}</td>
+  <td>{{x.split()[2]}}</td>
+  <td>{{x.split()[3]}}</td>
+  <td>{{x.split()[4]}}</td>
+  <td>{{x.split()[5]}}</td>
+</tr
+{% endfor %}
+</table>
+
+</div>
+<div class=flash>
+ 本周区内互联网城域网出口中继带宽合计{{总带宽}}G。本周区内城域网出口中继峰值流量{{峰值流量}}G，峰值带宽利用率{{峰值利用率}}%。
+ 区内互联网城域网出口中继最大入流量{{最大流入}}Gb/s，环比{{状态}}{{比例1}}%；中继最大出流量{{最大流出}}Gb/s，环比{{状态2}}{{比例2}}%。全区14地市城域网CR路由器至南宁、柳州骨干A1路由器间峰值带宽利用率为分别为{{nn}}%和{{lz}}%。骨干A路由器至各城域网核心CR路由器间峰值利用率超过60%的电路有{{num}}条:{{超过电路}}。
+ 本周周China169网因干线传输中断导致城域网部分出口中继中断0次，拥塞总时长0分钟。
+</div>
+{% endblock %}
