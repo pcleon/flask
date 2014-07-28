@@ -15,6 +15,9 @@ import cls
 
 UPLOAD_FOLDER = 'upload'
 DAY='20140725'
+DB_NAME='my.db'
+
+
 @flow.route('/',methods=['GET','POST'])
 @flow.route('/index',methods=['GET','POST'])
 def index():
@@ -46,9 +49,13 @@ def up():
     DAY = time.strftime("%Y-%m-%d",time.strptime(req['fname'][-12:-4], "%Y%m%d"))
     action = cls.fuck()
     every_flow = action.dofile(req['fname'])
+    #total_bw = sum(zip(*every_flow)[1])
     result = action.dataToDb(every_flow, DAY)
+    #print flow
 
-    return "%s %s %s %s" %(req['day'], req['fname'], DAY, str(result))
+
+    return render_template("up.html", flow = every_flow)
+    #return "%s %s %s %s" %(req['day'], req['fname'], DAY, str(result))
     #day=1
     #fname=2
     #return "hello %s, %s" %(day,fname)

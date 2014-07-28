@@ -2,6 +2,7 @@
 
 from __future__ import division
 import sqlite3
+from sqlite3 import IntegrityError
 import sys
 import time
 import re
@@ -52,7 +53,10 @@ class fuck():
         cn=sqlite3.connect(DB_NAME)
         cx=cn.cursor()
         for x in data:
-            cx.execute(" insert into tb values (?,?,?,?,?,?,?)" , (day, x[0], x[1], x[2], x[3], x[4], x[5]) )
+            try:
+                cx.execute(" insert into tb (inputday, city, bw, avgin, avgout, topin, topout)values (?,?,?,?,?,?,?)" , (day, x[0], x[1], x[2], x[3], x[4], x[5]) )
+            except IntegrityError:
+                pass
         cn.commit()
         cn.close()
 
