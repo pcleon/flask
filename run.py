@@ -28,5 +28,5 @@ app.register_blueprint(aaa, url_prefix='/aaa')
 app.register_blueprint(flow, url_prefix='/flow')
 
 if __name__ == "__main__":
-        app.run(debug = True)
+        app.run(host='0.0.0.0',debug = True)
        # app.run()

@@ -52,8 +52,8 @@ def up():
     #total_bw = sum(zip(*every_flow)[1])
     result = action.dataToDb(every_flow, DAY)
     #print flow
-
-
+    
+    print result
     return render_template("up.html", flow = every_flow)
     #return "%s %s %s %s" %(req['day'], req['fname'], DAY, str(result))
     #day=1
