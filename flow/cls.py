@@ -10,21 +10,24 @@ import re
 DB_NAME='my.db'
 
 class fuck():
-    def __init__(self):
+
+    def lastdata(self, day):
+        sql = "select * from flow where time=date(?,'-7 days')" 
         cn = sqlite3.connect(DB_NAME)
         cx = cn.cursor()
-        out = cx.execute("select * from flow order by time desc limit 1").fetchone()
+        ldata = cx.execute(sql,(day,)).fetchone()
         cx.close()
-        self.lastdata={
-                'cc_out' : out[1],
-                'flow_out' : out[2],
-                'flow_in' : out[3]
-                }
+        return ldata
 
-#        self.nowdata={}
+    def nowdata(self, day):
+        sql = "select * from flow where time=?"
+        cn = sqlite3.connect(DB_NAME)
+        cx = cn.cursor()
+        ndata = cx.execute(sql,(day,)).fetchone()
+        cx.close()
+        return ndata
 
-
-    def dofile(self,filename):
+    def dofile(self, filename):
         reload(sys)
         sys.setdefaultencoding('utf-8')
         import xlrd
@@ -49,6 +52,8 @@ class fuck():
         print final_list[0][0]
         return final_list
 
+
+######################
     def dataToDb( self, data , day=time.strftime('%Y-%m-%d',time.localtime())):
         cn=sqlite3.connect(DB_NAME)
         cx=cn.cursor()
@@ -83,7 +88,7 @@ class fuck():
         per_nn = cx.execute(sql).fetchone()[0]
         sql = "select sum(max(topin,topout))/sum(bw)*100 from tb where inputday='%s' and city like '%%-柳州%%'" %day
         per_lz = cx.execute(sql).fetchone()[0]
-        nowdata = {
+        middledata = {
                 'day' : day,
                 'total_bw' : round(total_bw/1000,0),
                 'cc_out' : round(cc_out/1000,2),
@@ -93,14 +98,14 @@ class fuck():
                 'per_nn' : round(per_nn,2),
                 'per_lz' : round(per_lz,2)
                 }
+        sql = "replace into flow values (?,?,?,?,?,?,?,?)"
+        cx.execute( sql, ( middledata['day'], middledata['total_bw'], middledata['cc_out'], middledata['per_cc_out'], middledata['flow_out'], middledata['flow_in'], middledata['per_nn'], middledata['per_lz'] ))
+        cn.commit()
+        return middledata
 
-        return nowdata
-
-
-#        return ['2014-07-22', total_bw, cc_out, per_cc_out, flow_in, flow_out, per_nn, per_lz]
-
-
-#print "%s %s %s %s" %( ut[0], cc_out, flow_out, flow_in)
-#f=fuck()
-#s=f.sortdata('RPT02050_20140709_20140715_20140709_20140715.xls')
-#f.dataToDb('2014-07-22',s)
+    def lt60(self,day):
+        cn = sqlite3.connect(DB_NAME)
+        cx = cn.cursor()
+        sql = "select city, max(topin,topout)/bw*100 as lt60 from tb where lt60 >=60 and inputday=?"
+        lt = cx.execute( sql, (day,) ).fetchall()
+        return lt

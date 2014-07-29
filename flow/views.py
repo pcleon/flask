@@ -8,13 +8,11 @@ from flask import url_for, redirect
 flow = Blueprint('flow', __name__, template_folder='templates')
 
 import sqlite3
-from db import flowOut
 
 import cls
 
 
 UPLOAD_FOLDER = 'upload'
-DAY='20140725'
 DB_NAME='my.db'
 
 
@@ -37,8 +35,7 @@ def index():
         #可以跳转,也可以以get方式传数据,但是在新url里面无法获取数据
         return redirect(url_for('.up',day=day,fname=fname))
     else :
-        flows = flowOut()
-        return render_template("index.html", ff = flows)
+        return render_template("index.html")
 
 #@flow.route('/up', methods=['POST'])
 @flow.route('/up')
@@ -48,14 +45,16 @@ def up():
     req = request.args
     DAY = time.strftime("%Y-%m-%d",time.strptime(req['fname'][-12:-4], "%Y%m%d"))
     action = cls.fuck()
+    lastdata = action.lastdata(DAY)
+    print lastdata
     every_flow = action.dofile(req['fname'])
-    #total_bw = sum(zip(*every_flow)[1])
-    result = action.dataToDb(every_flow, DAY)
-    #print flow
+    #day, total_bw, cc_out, per_cc_out, flow_in, flow_out, per_cc_out, per_nn, per_lz
+    middle = action.dataToDb(every_flow, DAY)
+    nowdata = action.nowdata(DAY)
+    sixty = action.lt60(DAY)
+    num60 = len(sixty)
+    str60 = ', '.join(map(lambda x: x[0] +' '+ str(round(x[1],2)) , sixty))
     
-    print result
-    return render_template("up.html", flow = every_flow)
-    #return "%s %s %s %s" %(req['day'], req['fname'], DAY, str(result))
-    #day=1
-    #fname=2
-    #return "hello %s, %s" %(day,fname)
+    print middle
+    print nowdata
+    return render_template("up.html", flow = every_flow, lastdata=lastdata, nowdata=nowdata, num60=num60, str60=str60)
