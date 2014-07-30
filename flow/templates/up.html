@@ -15,8 +15,8 @@
   {% endfor %}
 </div>
 
-<div>
-    本周城域网中继带宽合计<font color='FE00'>{{nowdata[1]}}</font>G，峰值流量<font color='FE00'>{{nowdata[2]}}</font>G，峰值带宽利用率<font color='FE00'>{{nowdata[3]}}%</font>。最大入流量<font color='FE00'>{{nowdata[5]}}</font>Gb/s，环比<font color='FE00'>{{stat_in}}{{f_in}}%</font> ；最大出流量<font color='FE00'>{{nowdata[4]}}</font>Gb/s，环比<font color='FE00'>{{stat_out}}{{f_out}}%</font>。全区14地市城域网CR路由器至南宁、柳州骨干A1路由器间峰值带宽利用率为分别为<font color='FE00'>{{nowdata[-2]}}%</font>和<font color='FE00'>{{nowdata[-1]}}%</font>。
-    骨干A路由器至各城域网核心CR路由器间峰值利用率超过60%的电路有<font color='FE00'>{{num60}}</font>条: {{str60}}。
+<div style="span-size:20px;span-family:'仿宋_GB2312'">
+    本周区内互联网城域网出口中继带宽合计<span style="color:#F00">{{nowdata[1]}}</span>G，本周区内城域网出口中继峰值流量<span style="color:#F00">{{nowdata[2]}}</span>G，峰值带宽利用率<span style="color:#F00">{{nowdata[3]}}%</span>。</br>
+    区内互联网城域网出口中继最大入流量<span style="color:#F00">{{nowdata[5]}}</span>Gb/s，环比<span style="color:#F00">{{stat_in}}{{f_in}}%</span> ；最大出流量<span style="color:#F00">{{nowdata[4]}}</span>Gb/s，环比<span style="color:#F00">{{stat_out}}{{f_out}}%</span>。全区14地市城域网CR路由器至南宁、柳州骨干A1路由器间峰值带宽利用率为分别为<span style="color:#F00">{{nowdata[-2]}}%</span>和<span style="color:#F00">{{nowdata[-1]}}%</span>。骨干A路由器至各城域网核心CR路由器间峰值利用率超过60%的电路有<span style="color:#F00">{{num60}}</span>条: {{str60}}。
 </div>
 {% endblock %}
