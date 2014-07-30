@@ -46,7 +46,6 @@ def up():
     DAY = time.strftime("%Y-%m-%d",time.strptime(req['fname'][-12:-4], "%Y%m%d"))
     action = cls.fuck()
     lastdata = action.lastdata(DAY)
-    print lastdata
     every_flow = action.dofile(req['fname'])
     #day, total_bw, cc_out, per_cc_out, flow_in, flow_out, per_cc_out, per_nn, per_lz
     middle = action.dataToDb(every_flow, DAY)
@@ -54,7 +53,14 @@ def up():
     sixty = action.lt60(DAY)
     num60 = len(sixty)
     str60 = ', '.join(map(lambda x: x[0] +' '+ str(round(x[1],2)) , sixty))
+    f_in = round( (nowdata[4]-lastdata[4])/nowdata[4]*100, 2)
+    f_out = round( (nowdata[5]-lastdata[5])/nowdata[5]*100, 2)
+    stat_in = ('上升' if f_in>=0 else '下降')
+    stat_out = ('上升' if f_out>=0 else '下降')
+    f_in = abs(f_in)
+    f_out = abs(f_out)
     
-    print middle
-    print nowdata
-    return render_template("up.html", flow = every_flow, lastdata=lastdata, nowdata=nowdata, num60=num60, str60=str60)
+    #print lastdata
+    #print middle
+    #print nowdata
+    return render_template("up.html", DAY=DAY, flow = every_flow, lastdata=lastdata, nowdata=nowdata, num60=num60, str60=str60, f_in=f_in, stat_in=stat_in, f_out=f_out, stat_out=stat_out)
