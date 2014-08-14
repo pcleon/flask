@@ -52,7 +52,7 @@ def up():
     nowdata = action.nowdata(DAY)
     sixty = action.lt60(DAY)
     num60 = len(sixty)
-    str60 = ', '.join(map(lambda x: x[0] +' '+ str(round(x[1],2)) , sixty))
+    str60 = ', '.join(map(lambda x: x[0] +' '+ str(round(x[1],2)) + '%', sixty))
     f_in = round( (nowdata[5]-lastdata[5])/lastdata[5]*100, 2)
     f_out = round( (nowdata[4]-lastdata[4])/lastdata[4]*100, 2)
     stat_in = ('上升' if f_in>=0 else '下降')

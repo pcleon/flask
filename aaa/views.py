@@ -16,7 +16,8 @@ def index():
         try:
             putdata(text.encode('UTF-8'))
         except IndexError:
-            return "数据输入格式错误"
+            #return "数据输入格式错误"
+            pass
         f = getdata(postday)
         aaa = { 'total':str(f[0]).decode('UTF-8'), 
             'totalPer':str(f[1]).decode('UTF-8'), 
