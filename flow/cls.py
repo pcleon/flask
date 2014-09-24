@@ -27,6 +27,7 @@ class fuck():
         cx.close()
         return ndata
 
+#####处理上传文件里面的地市信息
     def dofile(self, filename):
         reload(sys)
         sys.setdefaultencoding('utf-8')
@@ -37,19 +38,20 @@ class fuck():
         xlsData = xlrd.open_workbook(filename)
         table = xlsData.sheet_by_index(0)
         for rnum in range(0,table.nrows):
-            if "Pos" in table.cell(rnum,4).value:
+            #判定条件,只有在第6列存在pos电路口才继续,以便过滤非电路的行
+            if "Pos" in table.cell(rnum,5).value:
                 city = table.row_values(rnum)[2].replace('至','-').replace('A1 ','')
                    #地市, 带宽, 平均入,平均出,峰值入,峰值出
-                outList += [[ city, (table.row_values(rnum)[8]<10000 and 10000 or table.row_values(rnum)[8]), table.row_values(rnum)[9], table.row_values(rnum)[10], table.row_values(rnum)[13], table.row_values(rnum)[14]]]
+                #outList += [[ city, (table.row_values(rnum)[8]<10000 and 10000 or table.row_values(rnum)[8]), table.row_values(rnum)[9], table.row_values(rnum)[10], table.row_values(rnum)[13], table.row_values(rnum)[14]]]
+                outList += [[ city, (table.row_values(rnum)[9]<10000 and 10000 or table.row_values(rnum)[9]), table.row_values(rnum)[10], table.row_values(rnum)[11], table.row_values(rnum)[14], table.row_values(rnum)[15]]]
 
+##按照表格的顺序输出各个地市流量
         checkout = [u"南宁-南宁",u"柳州-南宁",u"桂林-南宁",u"梧州-南宁",u"玉林-南宁",u"百色-南宁",u"钦州-南宁",u"河池-南宁",u"北海-南宁",u"防城港-南宁",u"贵港-南宁",u"贺州-南宁",u"来宾-南宁",u"崇左-南宁",u"南宁-柳州",u"柳州-柳州",u"桂林-柳州",u"梧州-柳州",u"玉林-柳州",u"百色-柳州",u"钦州-柳州",u"河池-柳州",u"北海-柳州",u"防城港-柳州",u"贵港-柳州",u"贺州-柳州",u"来宾-柳州",u"崇左-柳州"]
         final_list=[]
         for x in checkout:
             for y in outList:
                 if re.match(x,y[0]):
                     final_list += [y]
-
-        print final_list[0][0]
         return final_list
 
 
