@@ -4,7 +4,7 @@ import time
 import sys
 import sqlite3
 
-TOTAL=1450000
+TOTAL=1650000
 ALLWO=50000
 DB_NAME='my.db'
 
